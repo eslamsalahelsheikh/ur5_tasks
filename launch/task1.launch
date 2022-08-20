@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- launch gazebo sim with robot -->
+  <include file="$(find ur_gazebo)/launch/ur5_bringup.launch">
+  </include>
+
+  <node name="task1" pkg="ur5_tasks" type="task1.py" />
+
+</launch>
