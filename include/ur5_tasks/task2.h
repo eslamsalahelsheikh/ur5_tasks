@@ -30,18 +30,16 @@ class TASK2 : public ros::NodeHandle{
     private:
 
         ros::NodeHandle nh;
-        KDL::JntArray ur5_states_positions_;
-        KDL::JntArray ur5_states_velocities_;
 
-        void get_ur5_states(const sensor_msgs::JointState& states_msg);
-        ros::Subscriber sub_js;
-        ros::Publisher joint_trajectory_pub;
-        
-        int ResultValue = 0;
-        ReflexxesAPI* RML;
-        RMLPositionInputParameters* IP;
-        RMLPositionOutputParameters* OP;
-        RMLPositionFlags Flags;
+
+        ros::Publisher joint_trajectory_pub_;
+
+        int ResultValue_ = 0;
+        ReflexxesAPI* RML_;
+        RMLPositionInputParameters* IP_;
+        RMLPositionOutputParameters* OP_;
+        RMLPositionFlags Flags_;
+        trajectory_msgs::JointTrajectory traj_;
 
         // KDL::Tree tree;
         // KDL::Chain chain;
@@ -50,7 +48,11 @@ class TASK2 : public ros::NodeHandle{
         // KDL::ChainIkSolverVel* ik_vel;
 
         // KDL::JntArray joint_state;
-
+        void init_reflexxes_and_traj(std::vector<double> initial_Joints_positions);
+        void get_ur5_states(const sensor_msgs::JointState& states_msg);
+        void update_reflexxes_parameters(std::vector<double> initial_Joints_positions,std::vector<double>  initial_Joints_velocities,std::vector<double>  initial_Joints_accelerations, std::vector<double> target_Joints_positions);
+        void update_reflexxes_parameters(std::vector<double> target_Joints_positions);
+        bool go_to_pose(int k);
     public:
         TASK2(ros::NodeHandle& nh);
         ~TASK2();
