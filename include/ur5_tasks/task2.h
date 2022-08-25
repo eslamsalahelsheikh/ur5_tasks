@@ -4,6 +4,7 @@
 #include <ros/ros.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 #include <geometry_msgs/Twist.h>
 #include<trajectory_msgs/JointTrajectory.h> 
 #include<trajectory_msgs/JointTrajectoryPoint.h>
@@ -18,6 +19,7 @@
 #include <kdl/chainiksolverpos_nr.hpp>
 #include <kdl/chainiksolvervel_pinv.hpp>
 #include <kdl/chainfksolverpos_recursive.hpp>
+#include <urdf/model.h>
 
 // Reflexxes
 #include <RMLPositionFlags.h>
@@ -40,19 +42,17 @@ class TASK2 : public ros::NodeHandle{
         RMLPositionOutputParameters* OP_;
         RMLPositionFlags Flags_;
         trajectory_msgs::JointTrajectory traj_;
-
-        // KDL::Tree tree;
-        // KDL::Chain chain;
-        // KDL::ChainFkSolverPos* fk_pos;
-        // KDL::ChainIkSolverPos* ik_pos;
-        // KDL::ChainIkSolverVel* ik_vel;
-
-        // KDL::JntArray joint_state;
-        void init_reflexxes_and_traj(std::vector<double> initial_Joints_positions);
+        std::vector<double> initial_Joints_positions_;
+        std::vector<double> initial_Joints_velocities_;
+        std::vector<double> initial_Joints_accelerations_;
+        std::vector<double> target_Joints_positions_;
+        void init_reflexxes_and_traj();
         void get_ur5_states(const sensor_msgs::JointState& states_msg);
-        void update_reflexxes_parameters(std::vector<double> initial_Joints_positions,std::vector<double>  initial_Joints_velocities,std::vector<double>  initial_Joints_accelerations, std::vector<double> target_Joints_positions);
-        void update_reflexxes_parameters(std::vector<double> target_Joints_positions);
+        void update_reflexxes_parameters();
         bool go_to_pose(int k);
+        void load_parameters();
+        void inverse_kinematics(std::string robot_description, std::vector<double> pose1, std::vector<double> pose2, double linear_velocity, double linear_accelaration);
+        void set_init_goal_positions(std::vector<double> initial_Joints_positions, std::vector<double> initial_Joints_velocities, std::vector<double> initial_Joints_acceleration ,std::vector<double> target_Joints_positions);
     public:
         TASK2(ros::NodeHandle& nh);
         ~TASK2();

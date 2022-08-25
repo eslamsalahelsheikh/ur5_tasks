@@ -1,0 +1,48 @@
+motion_type: 1   # 1 for 1st motion and 2 for second motion
+
+first_motion:
+  joint1_conf:
+    shoulder_pan_joint : -3.3
+    shoulder_lift_joint : -1.5
+    elbow_joint : 0.0
+    wrist_1_joint : 1.5
+    wrist_2_joint : 0.0
+    wrist_3_joint : 0.0
+
+  joint2_conf:
+    shoulder_pan_joint : 0.0
+    shoulder_lift_joint : 0.0
+    elbow_joint : 0.0
+    wrist_1_joint : 0.0
+    wrist_2_joint : 0.0
+    wrist_3_joint : 0.0
+
+  joints_velocity:
+    shoulder_pan_joint : 0.0
+    shoulder_lift_joint : 0.0
+    elbow_joint : 0.0
+    wrist_1_joint : 0.0
+    wrist_2_joint : 0.0
+    wrist_3_joint : 0.0
+
+  joints_acceleration:
+    shoulder_pan_joint : 0.0
+    shoulder_lift_joint : 0.0
+    elbow_joint : 0.0
+    wrist_1_joint : 0.0
+    wrist_2_joint : 0.0
+    wrist_3_joint : 0.0
+
+second_motion:
+  pose1:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+
+  pos2:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+
+  linear_velocity: 1.0
+  linear_acceleration: 1.0

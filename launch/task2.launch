@@ -1,0 +1,13 @@
+<launch>
+  <!-- delay untile gazebo is started -->
+  <arg name="node_start_delay" default="3"/>
+  <rosparam file="$(find ur5_tasks)/config/params.yaml" command="load" />
+
+  <!-- launch gazebo sim with robot -->
+  <include file="$(find ur_gazebo)/launch/ur5_bringup.launch" output="log"/>
+
+  <!-- run second task -->
+  <node name="task2" pkg="ur5_tasks" type="task2_1" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " output="screen">
+  </node>
+
+</launch>
