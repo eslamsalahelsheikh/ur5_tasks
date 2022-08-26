@@ -5,15 +5,12 @@ project(ur5_tasks)
 # add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
   trajectory_msgs
   moveit_kinematics
-  ur_kinematics
 )
 
 ###################################
@@ -30,9 +27,6 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   include
   include/Reflexxes
@@ -43,17 +37,10 @@ set_property(TARGET ReflexxesLib PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR
 
 
 add_executable(task2 src/task2.cpp)
-add_executable(task2_1 src/task2_1.cpp)
-
-
 add_dependencies(task2 ${catkin_EXPORTED_TARGETS})
-add_dependencies(task2_1 ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(task2
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(task2_1
   ${catkin_LIBRARIES} ReflexxesLib
 )
 #############

@@ -33,9 +33,9 @@ class TASK2 : public ros::NodeHandle{
 
         ros::NodeHandle nh;
 
-
+        int motion_number_;
         ros::Publisher joint_trajectory_pub_;
-
+        KDL::JntArray q_init_,q_init_vel_;
         int ResultValue_ = 0;
         ReflexxesAPI* RML_;
         RMLPositionInputParameters* IP_;
@@ -46,10 +46,14 @@ class TASK2 : public ros::NodeHandle{
         std::vector<double> initial_Joints_velocities_;
         std::vector<double> initial_Joints_accelerations_;
         std::vector<double> target_Joints_positions_;
-        void init_reflexxes_and_traj();
-        void get_ur5_states(const sensor_msgs::JointState& states_msg);
+        KDL::Frame desired_frame1_,desired_frame2_;
+        KDL::JntArray target_pose_joints_;
+        KDL::ChainIkSolverPos_NR* ik_solver_;
+        void init_reflexxes();
+        void init_trajectory();
         void update_reflexxes_parameters();
-        bool go_to_pose(int k);
+        bool go_to_joint_pose(int k);
+        bool got_to_cartesian_pose(int k);
         void load_parameters();
         void inverse_kinematics(std::string robot_description, std::vector<double> pose1, std::vector<double> pose2, double linear_velocity, double linear_accelaration);
         void set_init_goal_positions(std::vector<double> initial_Joints_positions, std::vector<double> initial_Joints_velocities, std::vector<double> initial_Joints_acceleration ,std::vector<double> target_Joints_positions);
