@@ -4,13 +4,12 @@
 #define CYCLE_TIME_IN_SECONDS 0.1
 #define DOF 6
 
-
 TASK2::TASK2(ros::NodeHandle& nh) {
     ros::Rate loop_rate(10);
     joint_trajectory_pub_ = nh.advertise<trajectory_msgs::JointTrajectory>("/pos_joint_traj_controller/command", 10);
     load_parameters(nh);
-    init_trajectory();
     init_reflexxes();
+    init_trajectory();
 
     // Starting the control loop
     bool goal_reached = false;
@@ -34,8 +33,6 @@ TASK2::TASK2(ros::NodeHandle& nh) {
     }
 
 };
-
-
 TASK2::~TASK2()
 {
     delete RML_;
@@ -44,7 +41,6 @@ TASK2::~TASK2()
 }
 
 void TASK2::load_parameters(ros::NodeHandle& nh){
-
     int motion_number = 1;
     nh.getParam("motion_type", motion_number);
     initial_Joints_positions_.resize(DOF);
@@ -153,6 +149,24 @@ void TASK2::init_reflexxes(){
     update_reflexxes_parameters();
 
 }
+void TASK2::update_reflexxes_parameters(){
+    // Adding reflexxes parameters
+    for (int i = 0; i < DOF; i++) {
+        // Initial joints positions, velocities and accelerations
+        IP_->CurrentPositionVector->VecData[i] = initial_Joints_positions_[i];
+        IP_->CurrentVelocityVector->VecData[i] = initial_Joints_velocities_[i];
+        IP_->CurrentAccelerationVector->VecData[i] = initial_Joints_accelerations_[i];
+
+        // Target joints positions, and velocities
+        IP_->TargetPositionVector->VecData[i] = target_Joints_positions_[i];
+        IP_->TargetVelocityVector->VecData[i] = initial_Joints_velocities_[i];  // Target velocity is the same as the initial velocity (for simplicity)
+        IP_->SelectionVector->VecData [i] =  true;
+        // Define kinematic limits
+        IP_->MaxVelocityVector->VecData[i] = 1.0;
+        IP_->MaxAccelerationVector->VecData[i] = 1.0;
+        IP_->MaxJerkVector->VecData[i] = 1.0;
+    }
+}
 void TASK2::init_trajectory(){
     // Initializing the trajectory
     traj_.header.stamp = ros::Time::now();
@@ -172,7 +186,6 @@ void TASK2::init_trajectory(){
 
     traj_.points[0].time_from_start = ros::Duration(1.0);
 }
-
 bool TASK2::go_to_target(){
     // Calling the Reflexxes OTG algorithm
     RMLPositionFlags Flags;
@@ -194,31 +207,10 @@ bool TASK2::go_to_target(){
     for (int i = 0; i < DOF; i++) {
         traj_.points[0].positions[i] = OP_->NewPositionVector->VecData[i];
     }
-
     traj_.points[0].time_from_start = ros::Duration(1.0);
     joint_trajectory_pub_.publish(traj_);
 
     // Checking if the Reflexxes algorithm has finished
     if (ResultValue == ReflexxesAPI::RML_FINAL_STATE_REACHED) return true;
     else return false;
-}
-
-void TASK2::update_reflexxes_parameters(){
-
-    // Adding reflexxes parameters
-    for (int i = 0; i < DOF; i++) {
-        // Initial joints positions, velocities and accelerations
-        IP_->CurrentPositionVector->VecData[i] = initial_Joints_positions_[i];
-        IP_->CurrentVelocityVector->VecData[i] = initial_Joints_velocities_[i];
-        IP_->CurrentAccelerationVector->VecData[i] = initial_Joints_accelerations_[i];
-
-        // Target joints positions, and velocities
-        IP_->TargetPositionVector->VecData[i] = target_Joints_positions_[i];
-        IP_->TargetVelocityVector->VecData[i] = initial_Joints_velocities_[i];  // Target velocity is the same as the initial velocity (for simplicity)
-        IP_->SelectionVector->VecData [i] =  true;
-        // Define kinematic limits
-        IP_->MaxVelocityVector->VecData[i] = 1.0;
-        IP_->MaxAccelerationVector->VecData[i] = 1.0;
-        IP_->MaxJerkVector->VecData[i] = 1.0;
-    }
 }

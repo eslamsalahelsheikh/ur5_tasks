@@ -53,10 +53,10 @@ class TASK1:
 
             self.pub.publish(trajectory)
             iteration += 1
+            rospy.spinOnce()
             self.rate.sleep()
 
 
 if __name__ == '__main__':
     rospy.init_node('task1_sinwave', anonymous=True)
     TASK1()
-    rospy.spin()
