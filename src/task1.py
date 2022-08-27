@@ -6,12 +6,13 @@ JOINT_NAMES = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
                'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 
 class TASK1:
+    # Initialize the class
     def __init__(self):
         self.rate = rospy.Rate(1) # 1hz (a little slow but to just to see the sine wave)
         self.pub = rospy.Publisher('/pos_joint_traj_controller/command', JointTrajectory, queue_size=10)
         self.task1_sinwave()
 
-
+    # Function to generate a sin wave and publish it to Gazebo
     def task1_sinwave(self):
 
         # initialize sine array

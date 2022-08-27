@@ -110,7 +110,7 @@ void TASK2::load_parameters(ros::NodeHandle& nh){
     }
 }
 void TASK2::inverse_kinematics(std::string robot_description, std::vector<double> pose1, std::vector<double> pose2, double linear_velocity, double linear_accelaration){
-    // initiailize the KD Tree
+    // initiailize the KDL Tree
     KDL::Tree my_tree;
     if (!kdl_parser::treeFromString(robot_description, my_tree)){
         ROS_ERROR("Failed to construct kdl tree");
