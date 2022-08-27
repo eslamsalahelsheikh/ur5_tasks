@@ -1,5 +1,4 @@
 import rospy
-from std_msgs.msg import String
 from trajectory_msgs.msg import *
 import math
 

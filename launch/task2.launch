@@ -7,7 +7,7 @@
   <include file="$(find ur_gazebo)/launch/ur5_bringup.launch" output="log"/>
 
   <!-- run second task -->
-  <node name="task2" pkg="ur5_tasks" type="task2_1" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " output="screen">
+  <node name="task2" pkg="ur5_tasks" type="task2" launch-prefix="bash -c 'sleep $(arg node_start_delay); $0 $@' " output="screen">
   </node>
 
 </launch>

@@ -8,7 +8,6 @@ project(ur5_tasks)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  std_msgs
   trajectory_msgs
   moveit_kinematics
 )
@@ -20,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES ur5_tasks
-  CATKIN_DEPENDS roscpp rospy std_msgs trajectory_msgs
+  CATKIN_DEPENDS roscpp rospy trajectory_msgs
 #  DEPENDS system_lib
 )
 
@@ -36,7 +35,7 @@ add_library(ReflexxesLib SHARED IMPORTED)
 set_property(TARGET ReflexxesLib PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/lib/libReflexxesTypeII.a)
 
 
-add_executable(task2 src/task2.cpp)
+add_executable(task2 src/task2.cpp src/task2_node.cpp)
 add_dependencies(task2 ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
@@ -46,13 +45,10 @@ target_link_libraries(task2
 #############
 ## Install ##
 #############
-
 catkin_install_python(PROGRAMS
   src/task1.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-
-
 
 ## Mark cpp header files for installation
 install(DIRECTORY include/${PROJECT_NAME}/
