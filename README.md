@@ -5,8 +5,8 @@
 This project is using ROS1 (noetic) on Ubuntu 20.04.  
 Inside src folder:
 ```
+git clone -b melodic-devel-staging https://github.com/ros-industrial/universal_robot
 git clone https://github.com/eslamsalahelsheikh/ur5_tasks.git
-sudo apt-get install ros-kinetic-universal-robot
 ```
 build the project and source the files:
 ```
