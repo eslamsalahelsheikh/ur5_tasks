@@ -53,7 +53,6 @@ class TASK1:
 
             self.pub.publish(trajectory)
             iteration += 1
-            rospy.spinOnce()
             self.rate.sleep()
 
 
